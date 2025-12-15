@@ -1,2 +1,62 @@
 # Architecture-Fusion-1
 CS4C - Hermosisima, Madlos Final Project for CS412
+
+The CIFAR-10 dataset can be downloaded(https://www.cs.toronto.edu/~kriz/cifar.html) for local usage or directly from torchvision datasets.
+
+1. What you fused
+    We fused a CNN backbone (ResNet-18) with a Transformer encoder.
+    The CNN extracts local spatial features from images.
+    The Transformer encodes long-range dependencies across feature maps to capture global contextual information.
+
+2. Why you fused them
+    CNN alone is good at capturing local patterns but limited in modeling global relationships across the image.
+    Transformer is excellent at global reasoning but inefficient for raw pixel inputs.
+    Fusion allows CNN to extract features efficiently, and Transformer to model relationships across those features, improving classification performance on datasets where both local and global information matter.
+
+
+
+3. Expected improvement / behavior
+    Better accuracy on classification tasks, especially when objects are small, occluded, or require global context.
+    More robust feature representation combining local texture and global structure.
+
+4. Problem being solved
+    Image classification on CIFAR-10, which involves correctly classifying 32x32 RGB images into 10 categories (airplane, automobile, bird, cat, etc.).
+
+5. Why it is relevant
+CIFAR-10 is a standard benchmark for evaluating image classification architectures.
+Demonstrates the effectiveness of architecture fusion strategies, which are relevant for modern vision tasks (e.g., medical imaging, remote sensing, small-object detection).
+
+6. Source, size, sample images
+    Dataset: CIFAR-10, from torchvision datasets.
+    Size: 60,000 images total (50,000 train, 10,000 test), 32x32 pixels, 3 channels (RGB).
+    Sample images: Airplanes, cats, dogs, trucks, etc.
+
+7. Architectures used
+    CNN Backbone: ResNet-18 (pretrained optional).
+    Transformer Module: 2 layers of TransformerEncoder with 8 attention heads, operating on the flattened CNN feature map sequences.
+    Classifier head: Global average pooling → Linear layer → Softmax (for 10 classes).
+
+8. Explanation of the fusion strategy
+    Input image → CNN (ResNet-18) → extracts a feature map [B, C, H, W].
+    Apply 1x1 convolution to reduce feature dimension (e.g., 512 → 256).
+    Flatten spatial dimensions → sequence [B, H*W, C] for Transformer input.
+    Transformer encoder applies multi-head self-attention to learn dependencies between spatial locations.
+    Global average pooling across sequence dimensions → feed into classification head.
+    This allows the network to combine local CNN features with global attention from the Transformer.
+
+9. Preprocessing and training details
+    Transforms: Resize to 64x64, random horizontal flips, normalization (0.5,0.5,0.5).
+    Batch size: 64
+    Optimizer: AdamW, learning rate 1e-4
+    Epochs: 5–10 (for demonstration)
+    Loss: Cross-entropy
+
+10. What your fusion contributed
+    What worked:
+        Captured both local and global features.
+        Achieved slightly higher accuracy than baseline CNN in experiments.
+    What didn’t work / limitations:
+        Overhead from Transformer layers increased training time.
+        Small image size (32x32) limits the benefit of Transformers; may require upscaling.
+        Limited epochs and simple data augmentation may cap performance.
+
