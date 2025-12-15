@@ -60,3 +60,16 @@ Demonstrates the effectiveness of architecture fusion strategies, which are rele
         Small image size (32x32) limits the benefit of Transformers; may require upscaling.
         Limited epochs and simple data augmentation may cap performance.
 
+The data set is obtained from https://www.cs.toronto.edu/~kriz/cifar.html.
+<img width="1857" height="558" alt="image" src="https://github.com/user-attachments/assets/a98c46db-3100-478f-8d90-30daf72b7554" />
+
+Results:
+
+<img width="732" height="371" alt="image" src="https://github.com/user-attachments/assets/189c7b9c-ecea-4cac-8ee1-d97411c29b0d" />
+
+<img width="1078" height="560" alt="image" src="https://github.com/user-attachments/assets/240681be-f203-4e09-88c5-9964e72548db" />
+
+Sample Predictions:
+
+<img width="1304" height="553" alt="image" src="https://github.com/user-attachments/assets/ef3e684d-7a13-4408-aca5-e83c186c1873" />
+
